@@ -64,7 +64,7 @@ public class CalorieController implements Initializable{
     private Button btnClear;
 
     @FXML
-    private ComboBox<Double> cboExercise;
+    private TextField txtExercise;
 
     @FXML
     private TableColumn<Calorie, Double> JourColumn;
@@ -121,17 +121,17 @@ public class CalorieController implements Initializable{
     private TextField txtNom;
 
     @FXML
-    void ajouter(ActionEvent event) {
+    void ajouter() {
 
     }
 
     @FXML
-    void updateEtudiant(ActionEvent event) {
+    void updateEtudiant() {
 
     }
 
     @FXML
-    void deleteEtudiant(ActionEvent event) {
+    void deleteEtudiant() {
 
     }
 

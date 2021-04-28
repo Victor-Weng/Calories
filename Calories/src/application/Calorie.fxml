@@ -138,7 +138,6 @@
                               </Label>
                               <TextField fx:id="txtCalories" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <ComboBox fx:id="cboEau" prefHeight="25.0" prefWidth="283.0" promptText="Combien de verres d'eau" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <ComboBox fx:id="cboExercise" prefHeight="25.0" prefWidth="283.0" promptText="Combien de calories perdues" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <ComboBox fx:id="cboLegumes" prefHeight="25.0" prefWidth="283.0" promptText="Combien de repas avec des légumes" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <Label text="Jour" textFill="WHITE">
                                  <font>
@@ -146,6 +145,7 @@
                                  </font>
                               </Label>
                               <ComboBox fx:id="cboJour" prefHeight="64.0" prefWidth="280.0" promptText="Jour" GridPane.columnIndex="1" />
+                              <TextField fx:id="txtExercise" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="124.0" />
