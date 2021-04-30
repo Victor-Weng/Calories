@@ -11,14 +11,71 @@ public class Calorie
 		private String jour;
 		private Double calorie;
 		private Double exercise;
-		private String eau;
+		private Double eau;
 		private String legumes;
 		
-		// Tableau 2, Profiles
-		private String nom;
-		private String sexe;
-		private Double age;
-		private Double poid;
-		private Double taille;
+	
+		// Constructeur vide tableau 1
+		
+			public Calorie()
+			{
+					this(null,null);
+			}
+		
+		
+		
+		public Calorie(String prenom, String nom) 
+			{
+				this.jour="";
+				this.calorie=0.0;
+				this.exercise=0.0;
+				this.eau=0.0;
+				this.legumes="";
+			}
 
+
+
+		// Tableau 1, Getters et Setters
+		public String getJour()
+			{
+				return jour;
+			}
+		public void setJour(String jour)
+			{
+				this.jour = jour;
+			}
+		public Double getCalorie()
+			{
+				return calorie;
+			}
+		public void setCalorie(Double calorie)
+			{
+				this.calorie = calorie;
+			}
+		public Double getExercise()
+			{
+				return exercise;
+			}
+		public void setExercise(Double exercise)
+			{
+				this.exercise = exercise;
+			}
+		public Double getEau()
+			{
+				return eau;
+			}
+		public void setEau(Double eau)
+			{
+				this.eau = eau;
+			}
+		public String getLegumes()
+			{
+				return legumes;
+			}
+		public void setLegumes(String legumes)
+			{
+				this.legumes = legumes;
+			}
+	
+		
 	}

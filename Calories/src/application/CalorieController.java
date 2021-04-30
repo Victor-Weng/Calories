@@ -49,7 +49,7 @@ import javafx.stage.Stage;
 public class CalorieController implements Initializable{
 
     @FXML
-    private ComboBox<String> cboEau;
+    private TextField cboEau;
 
     @FXML
     private BarChart<Calorie, Integer> barChart;
@@ -119,6 +119,9 @@ public class CalorieController implements Initializable{
 
     @FXML
     private TextField txtNom;
+    
+    @FXML
+    private TextField txtPrenom;
 
     @FXML
     void ajouter() {
@@ -139,6 +142,51 @@ public class CalorieController implements Initializable{
     void clearFields(ActionEvent event) {
 
     }
+    
+    
+    // TABLEAU 1
+    // liste pour "jour"
+    private ObservableList<String> jourlist=(ObservableList<String>) FXCollections.observableArrayList("Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche");
+    
+    // liste pour "legumes"
+    private ObservableList<String> legumeslist=(ObservableList<String>) FXCollections.observableArrayList("Aucun","1-2 repas","tous les repas");
+    
+    
+    // TABLEAU 2
+    // liste pour "sexe"
+    
+    
+    // PROFILE MANAGEMENT
+    // liste pour "profile"
+    // TODO : FIGURE OUT HOW TO SAVE PROFILES
+    
+    private ObservableList<String> sexelist=(ObservableList<String>) FXCollections.observableArrayList("Homme","Femme","Autre");
+    
+    public ObservableList<Calorie> caloriejourData=FXCollections.observableArrayList();
+    public ObservableList<Calorie> calorielegumesData=FXCollections.observableArrayList();
+    public ObservableList<Profile> profilesexeData=FXCollections.observableArrayList();
+    
+    // Tableau 1 return combo
+    
+    public ObservableList<Calorie> getcaloriejourData()
+    {
+    		return caloriejourData;
+    }
+    
+    public ObservableList<Calorie> getcalorielegumesData()
+    {
+    		return calorielegumesData;
+    }
+    
+    // Tableau 2 return combo
+    
+    public ObservableList<Profile> getprofilesexeData()
+    {
+    		return profilesexeData;
+    }
+    
+    
+    
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
