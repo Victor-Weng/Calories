@@ -12,7 +12,7 @@ public class Calorie
 		private Double calorie;
 		private Double exercise;
 		private Double eau;
-		private String legumes;
+		private String legume;
 		
 	
 		// Constructeur vide tableau 1
@@ -30,7 +30,7 @@ public class Calorie
 				this.calorie=0.0;
 				this.exercise=0.0;
 				this.eau=0.0;
-				this.legumes="";
+				this.legume="";
 			}
 
 
@@ -70,11 +70,11 @@ public class Calorie
 			}
 		public String getLegumes()
 			{
-				return legumes;
+				return legume;
 			}
-		public void setLegumes(String legumes)
+		public void setLegumes(String legume)
 			{
-				this.legumes = legumes;
+				this.legume = legume;
 			}
 	
 		

@@ -84,13 +84,13 @@
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#582d5b" height="53.0" layoutX="-6.0" stroke="#00000009" strokeType="INSIDE" width="562.0" />
                         <Circle fill="#be74ff" radius="100.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fill="WHITE" radius="65.0" stroke="WHITE" strokeType="INSIDE" />
-                        <TableView fx:id="caloriesTable" layoutX="48.0" layoutY="195.0" prefHeight="279.0" prefWidth="455.0">
+                        <TableView fx:id="calorieTable" layoutX="48.0" layoutY="195.0" prefHeight="279.0" prefWidth="455.0">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                            <columns>
-                              <TableColumn fx:id="JourColumn" prefWidth="75.0" text="Jour" />
-                              <TableColumn fx:id="caloriesColumn" prefWidth="75.0" text="Calories" />
+                              <TableColumn fx:id="jourColumn" prefWidth="75.0" text="Jour" />
+                              <TableColumn fx:id="calorieColumn" prefWidth="75.0" text="Calorie" />
                               <TableColumn fx:id="exerciseColumn" prefWidth="75.0" text="Exercise" />
                               <TableColumn fx:id="eauColumn" prefWidth="75.0" text="Eau" />
                               <TableColumn fx:id="legumeColumn" prefWidth="75.0" text="Legume" />
