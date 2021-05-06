@@ -64,7 +64,7 @@ public class CalorieController implements Initializable{
     private Button btnClear;
 
     @FXML
-    private TextField txtExercise;
+    private ComboBox<String> cboExercise;
 
     @FXML
     private TableColumn<Calorie, String> jourColumn;
@@ -100,6 +100,9 @@ public class CalorieController implements Initializable{
     private TextField txtAge;
 
     @FXML
+    private TextField txtTaille;
+    
+    @FXML
     private Button btnEffacer;
 
     @FXML
@@ -123,25 +126,6 @@ public class CalorieController implements Initializable{
     @FXML
     private TextField txtCalorie;
 
-    @FXML
-    void ajouter() {
-
-    }
-
-    @FXML
-    void updateCalorie() {
-
-    }
-
-    @FXML
-    void deleteCalorie() {
-
-    }
-
-    @FXML
-    void clearFields(ActionEvent event) {
-
-    }
     
     
     // TABLEAU 1
@@ -151,6 +135,8 @@ public class CalorieController implements Initializable{
     // liste pour "legumes"
     private ObservableList<String> legumeslist=(ObservableList<String>) FXCollections.observableArrayList("Aucun","1-2 repas","tous les repas");
     
+    // liste pour 'exercise'
+    private ObservableList<String> exerciselist=(ObservableList<String>) FXCollections.observableArrayList("Sedentaire", "Peu actif", "Actif", "Tres actif");
     
     // TABLEAU 2
     // liste pour "sexe"
@@ -164,8 +150,11 @@ public class CalorieController implements Initializable{
   
     
     public ObservableList<Calorie> caloriejourData=FXCollections.observableArrayList();
+    public ObservableList<Calorie> calorieData=FXCollections.observableArrayList();
     public ObservableList<Calorie> calorielegumesData=FXCollections.observableArrayList();
+    public ObservableList<Calorie> profileexerciseData=FXCollections.observableArrayList();
     public ObservableList<Profile> profilesexeData=FXCollections.observableArrayList();
+    
     
     // Tableau 1 return combo
     
@@ -186,6 +175,11 @@ public class CalorieController implements Initializable{
     		return profilesexeData;
     }
     
+    public ObservableList<Calorie> getprofileexerciseData()
+        {
+        		return profileexerciseData;
+        }
+    
     public ObservableList<Calorie> getcalorieData()
 		{
 			return calorieData;
@@ -199,6 +193,7 @@ public class CalorieController implements Initializable{
 			cboSexe.setItems(sexelist);
 			cboJour.setItems(jourlist);
 			cboLegumes.setItems(legumeslist);
+			cboExercise.setItems(exerciselist);
 
 			//attribuer les valeurs aux colonnes du tableView
 			jourColumn.setCellValueFactory(new PropertyValueFactory<>("jour"));
@@ -215,7 +210,7 @@ public class CalorieController implements Initializable{
 			showCalorie(null);
 			// Metre a jour l'affichage d'un Calorie selectionne
 			calorieTable.getSelectionModel().selectedItemProperty().addListener((
-					observable, oldValue, newValue)-> showCalories(newValue));
+					observable, oldValue, newValue)-> showCalorie(newValue));
 
 
 
@@ -232,9 +227,9 @@ public class CalorieController implements Initializable{
  					tmp=new Calorie();
  					tmp.setJour(txtjour.getText());
  					tmp.setCalorie((Double.parseDouble(txtCalorie.getText())));
- 					tmp.setExercise(Double.parseDouble(txtExercise.getText()));
+ 					tmp.setExercise(Double.parseDouble(cboExercise.getPromptText()));
  					tmp.setEau((Double.parseDouble(txtEau.getText())));
- 					CalorieData.add(tmp);
+ 					calorieData.add(tmp);
  					clearFields();
  				}
  				
@@ -245,11 +240,11 @@ public class CalorieController implements Initializable{
  		@FXML
  		public void verifNum() // methode pour trouer des input non numeriques
  		{
- 				txtExercise.textProperty().addListener((observable,oldValue,newValue)->
+ 				cboExercise.textPromptProperty().addListener((observable,oldValue,newValue)->
  					{
  						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
  						{
- 							txtExercise.setText(newValue.replaceAll("[^\\d*\\.]","")); // si le input est non numerique, ca le remplace
+ 							cboExercise.setPromptText(newValue.replaceAll("[^\\d*\\.]","")); // si le input est non numerique, ca le remplace
  						}
  					});
  		}
@@ -258,15 +253,15 @@ public class CalorieController implements Initializable{
  		@FXML
  		void clearFields()
  			{
- 				cboeau.setValue(null);
+ 				txtEau.setText("");
  				txtjour.setText("");
  				txtCalorie.setText("");
- 				txtExercise.setText("");
+ 				cboExercise.setPromptText("");
  			}
 
  		// Afficher les calorie
  		
- 		public void showcalorie(Calorie Calorie)
+ 		public void showCalorie(Calorie Calorie)
  			{
  				if(Calorie !=null)
  				{
@@ -274,7 +269,7 @@ public class CalorieController implements Initializable{
  					txtEau.setText(Double.toString(Calorie.getEau()));
  					txtjour.setText(Calorie.getJour());
  					txtCalorie.setText(Double.toString(Calorie.getCalorie()));
- 					txtExercise.setText(Double.toString(Calorie.getExercise()));
+ 					cboExercise.setPromptText(Double.toString(Calorie.getExercise()));
  					btnModifier.setDisable(false);
  					btnEffacer.setDisable(false);
  					btnClear.setDisable(false);
@@ -296,9 +291,9 @@ public class CalorieController implements Initializable{
  				{
  					Calorie Calorie=calorieTable.getSelectionModel().getSelectedItem();
 
- 					Calorie.setjour(txtjour.getText());
+ 					Calorie.setJour(txtjour.getText());
  					Calorie.setCalorie(Double.parseDouble(txtCalorie.getText()));
- 					Calorie.setExercise(Double.parseDouble(txtExercise.getText()));
+ 					Calorie.setExercise(Double.parseDouble(cboExercise.getPromptText()));
  					Calorie.setEau(Double.parseDouble(txtEau.getText()));
  					calorieTable.refresh();
  				}
@@ -332,13 +327,13 @@ public class CalorieController implements Initializable{
  				{
  					errorMessexercise+="Le champ Calorie ne doit pas etre vide! \n";
  				}
- 				if(txtExercise.getText().trim().equals(""))
+ 				if(cboExercise.getPromptText().trim().equals(""))
  				{
  					errorMessexercise+="Le champ exercise ne doit pas etre vide! \n";
  				}
  				if(txtEau.getText().trim().equals(""))
  				{
- 					errorMessexercise+="Le champ departement ne doit pas etre vide! \n";
+ 					errorMessexercise+="Le champ eau ne doit pas etre vide! \n";
  				}
  				
  				if(errorMessexercise.length()==0)
@@ -362,11 +357,11 @@ public class CalorieController implements Initializable{
  	    void handleStats()
  	    {
  	        try {
- 	            FXMLLoader loader= new FXMLLoader(Main.class.getResource("ExerciseStat.FXML"));
+ 	            FXMLLoader loader= new FXMLLoader(Main.class.getResource("CalorieStat.FXML"));
  	            AnchorPane pane = loader.load();
  	            Scene scene = new Scene(pane);
- 	            ExerciseStat exercisestat=loader.getController();
- 	            exercisestat.SetStats(CalorieData);
+ 	            CalorieStat caloriestat=loader.getController();
+ 	            caloriestat.SetStats(calorieData);
  	            Stage stage=new Stage();
  	            stage.setScene(scene);
  	            stage.setTitle("Statistiques");
@@ -376,13 +371,102 @@ public class CalorieController implements Initializable{
  	        }
  	    }
  		
+ 	    
+ 	// Methode pour calculer le "Consommation calorique suggérée"
+ 		@FXML
+ 	 	private void calculateCalorie() 
+ 				{
+ 				String sexe = (cboSexe.getPromptText());
+ 				double age = Double.parseDouble(txtAge.getText());
+ 				double poids = Double.parseDouble(txtPoids.getText());
+ 				double taille = Double.parseDouble(txtTaille.getText());
+ 				String exercise = (cboExercise.getPromptText());
+ 				double PAI = 0.0;
+ 				double caloriesuggest = 0.0;
+ 				double caloriesuggestsemaine = 0.0;
+ 				
+ 				
+ 	 			// HOMME	
+ 				if(sexe == "Homme")
+ 				{
+ 					if(exercise == "Sedentaire")
+ 	 				{
+ 	 					PAI = 1;
+ 	 				}
+ 	 					else if (exercise == "Peu actif")
+ 	 					{
+ 	 						PAI = 1.12;
+ 	 					}
+ 			 				else if (exercise == "Actif")
+ 			 				{
+ 			 					PAI = 1.27;
+ 			 				}
+ 				 				else if (exercise == "Tres actif")
+ 				 				{
+ 				 					PAI = 1.54;
+ 				 				}
+
+ 					caloriesuggest = (864 - 9.72*age + PAI*(14.2*poids + 503*taille));
+ 				}
+ 			
+ 				// FEMME
+ 				else if(sexe == "Femme")
+ 				{
+ 					if(exercise == "Sedentaire")
+ 	 				{
+ 	 					PAI = 1;
+ 	 				}
+ 	 					else if (exercise == "Peu actif")
+ 	 					{
+ 	 						PAI = 1.14;
+ 	 					}
+ 			 				else if (exercise == "Actif")
+ 			 				{
+ 			 					PAI = 1.27;
+ 			 				}
+ 				 				else if (exercise == "Tres actif")
+ 				 				{
+ 				 					PAI = 1.45;
+ 				 				}
+
+ 					caloriesuggest = (387 - 7.31*age + PAI*(10.9*poids + 660.7*taille));
+ 				}
+ 				
+ 			// AUTRE	
+ 				else if(sexe == "Autre")
+ 				{
+ 					if(exercise == "Sedentaire")
+ 	 				{
+ 	 					PAI = 1;
+ 	 				}
+ 	 					else if (exercise == "Peu actif")
+ 	 					{
+ 	 						PAI = 1.12;
+ 	 					}
+ 			 				else if (exercise == "Actif")
+ 			 				{
+ 			 					PAI = 1.27;
+ 			 				}
+ 				 				else if (exercise == "Tres actif")
+ 				 				{
+ 				 					PAI = 1.54;
+ 				 				}
+
+ 					caloriesuggest = (625.5 - 8.52*age + PAI*(12.55*poids + 581.85*taille/100));
+ 				}
+ 				caloriesuggestsemaine = 7*caloriesuggest;
+ 				
+ 				lblDay.setText(caloriesuggest.getText());
+ 				lblDay.setText(caloriesuggestsemaine.getText());
+ 				
+ 	 		}
  		
  		// SAUVEGARDE DE DONNEES
  		
  		//Recuperer le chemin (path) des fichiers si ca existe
  		public File getCalorieFilePath()
  		{
- 				Preferences prefs = Preferences.userNodeForPackexercise(Main.class);
+ 				Preferences prefs = Preferences.userNodeForPackage(Main.class);
  				String filePath = prefs.get("filePath", null);
  				
  				if (filePath != null)
@@ -399,7 +483,7 @@ public class CalorieController implements Initializable{
  		
  		public void setCalorieFilePath(File file)
  		{
- 				Preferences prefs = Preferences.userNodeForPackexercise(Main.class);
+ 				Preferences prefs = Preferences.userNodeForPackage(Main.class);
  				if (file != null)
  				{
  					prefs.put("filePath", file.getPath());
@@ -418,8 +502,8 @@ public class CalorieController implements Initializable{
  				Unmarshaller um = context.createUnmarshaller();
  				
  				CalorieListWrapper wrapper = (CalorieListWrapper) um.unmarshal(file);
- 				CalorieData.clear();
- 				CalorieData.addAll(wrapper.getcalorie());
+ 				calorieData.clear();
+ 				calorieData.addAll(wrapper.getCalorie());
  				setCalorieFilePath(file);
  				// Donner le titre du fichier chargee
  				Stage pStage=(Stage) calorieTable.getScene().getWindow();
@@ -441,15 +525,15 @@ public class CalorieController implements Initializable{
  				Marshaller m = context.createMarshaller();
  				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
  				CalorieListWrapper wrapper = new CalorieListWrapper();
- 				wrapper.setcalorie(CalorieData);
+ 				wrapper.setCalories(calorieData);
  				
  				m.marshal(wrapper,  file);
  				
  				// Sauvegarde dans le registre
  				setCalorieFilePath(file);
  				// Donner le titre du fichier sauvegarde
- 				Stexercise pStexercise=(Stexercise) calorieTable.getScene().getWindow();
- 				pStexercise.setTitle(file.getName());
+ 				Stage pStage=(Stage) calorieTable.getScene().getWindow();
+ 				pStage.setTitle(file.getName());
  				
  			} catch (Exception e) {
  				
@@ -465,7 +549,7 @@ public class CalorieController implements Initializable{
  	@FXML
  	private void handleNew()
  	{
- 			getCalorieData().clear();
+ 			getcalorieData().clear();
  			setCalorieFilePath(null);
  	}
  		
@@ -528,7 +612,10 @@ public class CalorieController implements Initializable{
  				saveCalorieDataToFile(file);
  			}
  	}
+ 	
+ 	
+ 	
+ 	}
     
     
-}
 
