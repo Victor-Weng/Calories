@@ -13,15 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="calories")
 public class CalorieListWrapper
 	{
-		private List<Calorie> calorie;
+		private List<Calorie> calories;
 		@XmlElement(name="calorie")
-		public List<Calorie> getCalorie()
+		public List<Calorie> getCalories()
 		{
-				return calorie;
+				return calories;
 		}
-		public void setCalories(List<Calorie> calorie)
+		public void setCalories(List<Calorie> calories)
 		{
-				this.calorie=calorie;
+				this.calories=calories;
 		}
 		
 	}

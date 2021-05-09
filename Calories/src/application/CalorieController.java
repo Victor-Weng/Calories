@@ -3,6 +3,9 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
@@ -13,12 +16,13 @@ import javax.xml.bind.Unmarshaller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -50,9 +54,6 @@ public class CalorieController implements Initializable{
 
     @FXML
     private TextField txtEau;
-
-    @FXML
-    private BarChart<Calorie, Integer> barChart;
     
     @FXML
     private ComboBox<String> cboSexe;
@@ -71,18 +72,12 @@ public class CalorieController implements Initializable{
 
     @FXML
     private TableColumn<Calorie, Double> calorieColumn;
-
-    @FXML
-    private TableColumn<Calorie, Double> exerciseColumn;
     
     @FXML
     private TableColumn<Calorie, Double> eauColumn;
 
     @FXML
     private TableColumn<Calorie, String> legumeColumn;
-
-    @FXML
-    private TextField txtCalories;
 
     @FXML
     private ComboBox<String> cboLegumes;
@@ -119,12 +114,23 @@ public class CalorieController implements Initializable{
 
     @FXML
     private Label lblWeek;
-
-    @FXML
-    private TextField txtjour;
     
     @FXML
     private TextField txtCalorie;
+    
+    @FXML
+    private TextField txtPrenom;
+    
+    @FXML
+    private TextField txtNom;
+    
+    @FXML
+    private BarChart<String, Double> barChart;
+
+    @FXML
+    private CategoryAxis xAxis;
+
+    private ObservableList<String> intervalJour=FXCollections.observableArrayList();
 
     
     
@@ -149,36 +155,11 @@ public class CalorieController implements Initializable{
     private ObservableList<String> sexelist=(ObservableList<String>) FXCollections.observableArrayList("Homme","Femme","Autre");
   
     
-    public ObservableList<Calorie> caloriejourData=FXCollections.observableArrayList();
     public ObservableList<Calorie> calorieData=FXCollections.observableArrayList();
-    public ObservableList<Calorie> calorielegumesData=FXCollections.observableArrayList();
-    public ObservableList<Calorie> profileexerciseData=FXCollections.observableArrayList();
-    public ObservableList<Profile> profilesexeData=FXCollections.observableArrayList();
+
     
     
     // Tableau 1 return combo
-    
-    public ObservableList<Calorie> getcaloriejourData()
-    {
-    		return caloriejourData;
-    }
-    
-    public ObservableList<Calorie> getcalorielegumesData()
-    {
-    		return calorielegumesData;
-    }
-    
-    // Tableau 2 return combo
-    
-    public ObservableList<Profile> getprofilesexeData()
-    {
-    		return profilesexeData;
-    }
-    
-    public ObservableList<Calorie> getprofileexerciseData()
-        {
-        		return profileexerciseData;
-        }
     
     public ObservableList<Calorie> getcalorieData()
 		{
@@ -198,7 +179,6 @@ public class CalorieController implements Initializable{
 			//attribuer les valeurs aux colonnes du tableView
 			jourColumn.setCellValueFactory(new PropertyValueFactory<>("jour"));
 			calorieColumn.setCellValueFactory(new PropertyValueFactory<>("calorie"));
-			exerciseColumn.setCellValueFactory(new PropertyValueFactory<>("exercise"));
 			eauColumn.setCellValueFactory(new PropertyValueFactory<>("eau"));
 			legumeColumn.setCellValueFactory(new PropertyValueFactory<>("legume"));
 			calorieTable.setItems(calorieData);
@@ -211,11 +191,122 @@ public class CalorieController implements Initializable{
 			// Metre a jour l'affichage d'un Calorie selectionne
 			calorieTable.getSelectionModel().selectedItemProperty().addListener((
 					observable, oldValue, newValue)-> showCalorie(newValue));
-
-
+			
+			// Afficher le Bar Chart
+			   intervalJour.add("Lundi");
+	    	   intervalJour.add("Mardi");
+	    	   intervalJour.add("Mercredi");
+	    	   intervalJour.add("Jeudi");
+	    	   intervalJour.add("Vendredi");
+	    	   intervalJour.add("Samedi");
+	    	   intervalJour.add("Dimanche");
+	    		
+	           xAxis.setCategories(intervalJour);
+	          
+			 
 
 		}
     
+
+    public void SetStats(List<Calorie> calories)
+        {
+            //Compter le calorie par jour
+	    	
+    		double[] jourCounter= new double[7]; 
+    		   
+    		Objects.requireNonNull(intervalJour, "intervalJour must not be null");
+    		Objects.requireNonNull(barChart, "barChart must not be null");
+    		Objects.requireNonNull(jourCounter, "jourCounter must not be null");
+            
+            for(Calorie e:calories)
+            {
+            	double jourCount = 0.0;
+            	String aJour = "";
+            	aJour= e.getJour();
+                
+            	if(aJour == "Lundi")
+                {
+             	   jourCount = 1;
+                }
+            		else if(aJour == "Mardi")
+                     {
+                  	   jourCount = 2;
+                     }
+            			else if(aJour == "Mercredi")
+		                {
+		             	   jourCount = 3;
+		                }
+		            		else if(aJour == "Jeudi")
+		                     {
+		                  	   jourCount = 4;
+		                     }
+		            			else if(aJour == "Vendredi")
+				                {
+				             	   jourCount = 5;
+				                }
+				            		else if(aJour == "Samedi")
+				                     {
+				                  	   jourCount = 6;
+				                     }
+				            			else if(aJour == "Dimanche")
+						                {
+						             	   jourCount = 7;
+						                }
+						            		
+            	
+            	
+            	double tmpcal = 0.0;
+            	tmpcal = e.getCalorie();
+            	//tmpcal = Double.parseDouble(txtCalorie.getText());
+            	
+                if(jourCount == 1)
+             	   jourCounter[0] = tmpcal;
+                else
+                    if(jourCount == 2)
+                    	jourCounter[1] = tmpcal;
+                    else
+                        if(jourCount == 3)
+                        	jourCounter[2] = tmpcal;
+                        else
+                            if(jourCount == 4)
+                            	jourCounter[3] = tmpcal;
+                            else
+                                if(jourCount == 5)
+                                	jourCounter[4] = tmpcal;
+                                else
+                                    if(jourCount == 6)
+                                    	jourCounter[5] = tmpcal;
+                                    else
+                                        if(jourCount == 7)
+                                        	jourCounter[6] = tmpcal;
+                                        else
+                                            if(jourCount == 8)
+                                            	jourCounter[7] = tmpcal; 
+            }
+            
+            XYChart.Series<String, Double> series=new XYChart.Series<>();
+            series.setName("Jour"); // legende pour le graphique
+
+            //creation du graphique
+            for(int i=0 ; i<jourCounter.length;i++)
+            {
+                series.getData().add(new XYChart.Data<>(intervalJour.get(i), jourCounter[i]));
+
+            }
+            barChart.getData().add(series);
+        }
+    
+    
+    	@FXML
+    	void handleStats()
+    	{
+    			try {
+					SetStats(calorieData);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
  // Ajouter un Calorie
  		@FXML
  		void ajouter()
@@ -225,26 +316,60 @@ public class CalorieController implements Initializable{
  				{
  					Calorie tmp=new Calorie();
  					tmp=new Calorie();
- 					tmp.setJour(txtjour.getText());
- 					tmp.setCalorie((Double.parseDouble(txtCalorie.getText())));
- 					tmp.setExercise(Double.parseDouble(cboExercise.getPromptText()));
- 					tmp.setEau((Double.parseDouble(txtEau.getText())));
+ 					tmp.setJour(cboJour.getValue());
+ 					tmp.setCalorie(Double.parseDouble(txtCalorie.getText()));
+ 					tmp.setEau(Double.parseDouble(txtEau.getText()));
+					tmp.setLegumes(cboLegumes.getValue());
  					calorieData.add(tmp);
+ 					//SetStats(calorieData);
  					clearFields();
+ 					
  				}
  				
  			}
- 		
+ 	
  		
  		
  		@FXML
  		public void verifNum() // methode pour trouer des input non numeriques
  		{
- 				cboExercise.textPromptProperty().addListener((observable,oldValue,newValue)->
+ 				txtCalorie.textProperty().addListener((observable,oldValue,newValue)->
  					{
  						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
  						{
- 							cboExercise.setPromptText(newValue.replaceAll("[^\\d*\\.]","")); // si le input est non numerique, ca le remplace
+ 							txtCalorie.setText(newValue.replaceAll("[^\\d*\\.]","")); 
+ 						}
+ 					});
+ 				
+ 				txtEau.textProperty().addListener((observable,oldValue,newValue)->
+ 					{
+ 						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
+ 						{
+ 							txtEau.setText(newValue.replaceAll("[^\\d*\\.]","")); 
+ 						}
+ 					});
+ 				
+ 				txtAge.textProperty().addListener((observable,oldValue,newValue)->
+ 					{
+ 						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
+ 						{
+ 							txtAge.setText(newValue.replaceAll("[^\\d*\\.]","")); 
+ 						}
+ 					});
+ 				
+ 				txtPoids.textProperty().addListener((observable,oldValue,newValue)->
+ 					{
+ 						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
+ 						{
+ 							txtPoids.setText(newValue.replaceAll("[^\\d*\\.]","")); 
+ 						}
+ 					});
+ 				
+ 				txtTaille.textProperty().addListener((observable,oldValue,newValue)->
+ 					{
+ 						if(!newValue.matches("^[0-9](\\.[0-9]+)?$"))
+ 						{
+ 							txtTaille.setText(newValue.replaceAll("[^\\d*\\.]","")); 
  						}
  					});
  		}
@@ -254,22 +379,29 @@ public class CalorieController implements Initializable{
  		void clearFields()
  			{
  				txtEau.setText("");
- 				txtjour.setText("");
+ 				cboJour.setValue(null);
  				txtCalorie.setText("");
- 				cboExercise.setPromptText("");
+ 				cboLegumes.setValue(null);
+
+ 				/*txtNom.setText("");
+ 				cboSexe.setPromptText("");
+ 				txtAge.setText("");
+ 				txtPoids.setText("");
+ 				txtTaille.setText("");*/
  			}
 
  		// Afficher les calorie
  		
- 		public void showCalorie(Calorie Calorie)
+ 		
+ 		public void showCalorie(Calorie calorie)
  			{
- 				if(Calorie !=null)
+ 				if(calorie !=null)
  				{
 
- 					txtEau.setText(Double.toString(Calorie.getEau()));
- 					txtjour.setText(Calorie.getJour());
- 					txtCalorie.setText(Double.toString(Calorie.getCalorie()));
- 					cboExercise.setPromptText(Double.toString(Calorie.getExercise()));
+ 					cboJour.setValue(calorie.getJour());
+ 					txtEau.setText(Double.toString(calorie.getEau()));
+ 					txtCalorie.setText(Double.toString(calorie.getCalorie()));
+ 					cboLegumes.setValue(calorie.getLegumes());
  					btnModifier.setDisable(false);
  					btnEffacer.setDisable(false);
  					btnClear.setDisable(false);
@@ -289,12 +421,12 @@ public class CalorieController implements Initializable{
  				// Verifier si un champ n'est pas vide
  				if(noEmptyInput())
  				{
- 					Calorie Calorie=calorieTable.getSelectionModel().getSelectedItem();
+ 					Calorie calorie=calorieTable.getSelectionModel().getSelectedItem();
 
- 					Calorie.setJour(txtjour.getText());
- 					Calorie.setCalorie(Double.parseDouble(txtCalorie.getText()));
- 					Calorie.setExercise(Double.parseDouble(cboExercise.getPromptText()));
- 					Calorie.setEau(Double.parseDouble(txtEau.getText()));
+ 					calorie.setJour(cboJour.getValue());
+ 					calorie.setCalorie(Double.parseDouble(txtCalorie.getText()));
+ 					calorie.setLegumes(cboLegumes.getValue());
+ 					calorie.setEau(Double.parseDouble(txtEau.getText()));
  					calorieTable.refresh();
  				}
  			}
@@ -318,25 +450,25 @@ public class CalorieController implements Initializable{
  		// Verifier les champs vides
  		private boolean noEmptyInput()
  		{
- 				String errorMessexercise="";
- 				if(txtjour.getText().trim().equals(""))
+ 				String errorMessage="";
+ 				if(cboJour.getValue()==null)
  				{
- 					errorMessexercise+="Le champ jour ne doit pas etre vide! \n";
+ 					errorMessage+="Le champ jour ne doit pas etre vide! \n";
  				}
  				if(txtCalorie.getText().trim().equals(""))
  				{
- 					errorMessexercise+="Le champ Calorie ne doit pas etre vide! \n";
- 				}
- 				if(cboExercise.getPromptText().trim().equals(""))
- 				{
- 					errorMessexercise+="Le champ exercise ne doit pas etre vide! \n";
+ 					errorMessage+="Le champ Calorie ne doit pas etre vide! \n";
  				}
  				if(txtEau.getText().trim().equals(""))
  				{
- 					errorMessexercise+="Le champ eau ne doit pas etre vide! \n";
+ 					errorMessage+="Le champ eau ne doit pas etre vide! \n";
+ 				}
+ 				if(cboLegumes.getValue()==null)
+ 				{
+ 					errorMessage+="Le champ legumes ne doit pas etre vide! \n";
  				}
  				
- 				if(errorMessexercise.length()==0)
+ 				if(errorMessage.length()==0)
  				{
  					return true;
  				}
@@ -345,42 +477,24 @@ public class CalorieController implements Initializable{
  					Alert alert=new Alert(AlertType.ERROR);
  					alert.setTitle("Champs manquants");
  					alert.setHeaderText("Completer les champs manquants");
- 					alert.setContentText(errorMessexercise);
+ 					alert.setContentText(errorMessage);
  					alert.showAndWait();
  					return false;
  				}
  					
  		}
  		
- 		//Afficher les statistiques
- 	    @FXML
- 	    void handleStats()
- 	    {
- 	        try {
- 	            FXMLLoader loader= new FXMLLoader(Main.class.getResource("CalorieStat.FXML"));
- 	            AnchorPane pane = loader.load();
- 	            Scene scene = new Scene(pane);
- 	            CalorieStat caloriestat=loader.getController();
- 	            caloriestat.SetStats(calorieData);
- 	            Stage stage=new Stage();
- 	            stage.setScene(scene);
- 	            stage.setTitle("Statistiques");
- 	            stage.show();
- 	        } catch (IOException e) {
- 	            e.printStackTrace();
- 	        }
- 	    }
  		
  	    
  	// Methode pour calculer le "Consommation calorique suggérée"
  		@FXML
  	 	private void calculateCalorie() 
  				{
- 				String sexe = (cboSexe.getPromptText());
+ 				String sexe = (cboSexe.getValue());
  				double age = Double.parseDouble(txtAge.getText());
  				double poids = Double.parseDouble(txtPoids.getText());
  				double taille = Double.parseDouble(txtTaille.getText());
- 				String exercise = (cboExercise.getPromptText());
+ 				String exercise = (cboExercise.getValue());
  				double PAI = 0.0;
  				double caloriesuggest = 0.0;
  				double caloriesuggestsemaine = 0.0;
@@ -406,7 +520,7 @@ public class CalorieController implements Initializable{
  				 					PAI = 1.54;
  				 				}
 
- 					caloriesuggest = (864 - 9.72*age + PAI*(14.2*poids + 503*taille));
+ 					caloriesuggest = (864 - 9.72*age + PAI*(14.2*poids + 503*taille/100));
  				}
  			
  				// FEMME
@@ -429,7 +543,7 @@ public class CalorieController implements Initializable{
  				 					PAI = 1.45;
  				 				}
 
- 					caloriesuggest = (387 - 7.31*age + PAI*(10.9*poids + 660.7*taille));
+ 					caloriesuggest = (387 - 7.31*age + PAI*(10.9*poids + 660.7*taille/100));
  				}
  				
  			// AUTRE	
@@ -456,8 +570,13 @@ public class CalorieController implements Initializable{
  				}
  				caloriesuggestsemaine = 7*caloriesuggest;
  				
- 				lblDay.setText(caloriesuggest.getText());
- 				lblDay.setText(caloriesuggestsemaine.getText());
+ 				System.out.println("poids = " + poids);
+ 				System.out.println("exercise = " + exercise);
+ 				System.out.println("taille = " + taille);
+ 				System.out.println("sexe = " + sexe);
+ 				
+ 				lblDay.setText(Double.toString(caloriesuggest));
+ 				lblWeek.setText(Double.toString(caloriesuggestsemaine));
  				
  	 		}
  		
@@ -503,7 +622,7 @@ public class CalorieController implements Initializable{
  				
  				CalorieListWrapper wrapper = (CalorieListWrapper) um.unmarshal(file);
  				calorieData.clear();
- 				calorieData.addAll(wrapper.getCalorie());
+ 				calorieData.addAll(wrapper.getCalories());
  				setCalorieFilePath(file);
  				// Donner le titre du fichier chargee
  				Stage pStage=(Stage) calorieTable.getScene().getWindow();

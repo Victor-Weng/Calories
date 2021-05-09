@@ -10,7 +10,6 @@ public class Calorie
 		// Tableau 1, Rapport du semain
 		private String jour;
 		private Double calorie;
-		private Double exercise;
 		private Double eau;
 		private String legume;
 		
@@ -24,11 +23,10 @@ public class Calorie
 		
 		
 		
-		public Calorie(String prenom, String nom) 
+		public Calorie(String jour, Double calorie) 
 			{
 				this.jour="";
 				this.calorie=0.0;
-				this.exercise=0.0;
 				this.eau=0.0;
 				this.legume="";
 			}
@@ -51,14 +49,6 @@ public class Calorie
 		public void setCalorie(Double calorie)
 			{
 				this.calorie = calorie;
-			}
-		public Double getExercise()
-			{
-				return exercise;
-			}
-		public void setExercise(Double exercise)
-			{
-				this.exercise = exercise;
 			}
 		public Double getEau()
 			{
