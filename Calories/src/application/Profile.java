@@ -14,6 +14,7 @@ public class Profile
 		private Double age;
 		private Double poid;
 		private Double taille;
+		private String exercise;
 
 		// Constructeur vide tableau 2
 		
@@ -30,6 +31,7 @@ public class Profile
 					this.age=0.0;
 					this.poid=0.0;
 					this.taille=0.0;
+					this.exercise="";
 				}
 		
 		// Tableau 2, Getters et Setters
@@ -80,6 +82,14 @@ public class Profile
 		public void setTaille(Double taille)
 			{
 				this.taille = taille;
+			}
+		public String getExercise()
+			{
+				return exercise;
+			}
+		public void setExercise(String exercise)
+			{
+				this.exercise = exercise;
 			}
 		
 		

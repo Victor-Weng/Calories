@@ -42,7 +42,7 @@
                               <Font name="Impact" size="50.0" />
                            </font>
                         </Text>
-                        <Label fx:id="lblUser" layoutX="65.0" layoutY="168.0" text="User1">
+                        <Label fx:id="lblUser" layoutX="65.0" layoutY="168.0" text="User">
                            <font>
                               <Font name="Impact" size="35.0" />
                            </font>
@@ -64,6 +64,19 @@
                           </yAxis>
                         </BarChart>
                         <Button layoutX="211.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleStats" text="Voir" />
+                        <Label fx:id="lblDay1" layoutX="402.0" layoutY="722.0" prefHeight="31.0" prefWidth="132.0" text="1">
+                           <font>
+                              <Font name="Impact" size="18.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="0.7333333333333334" endY="1.0" startX="0.6571428571428571" startY="0.3952380952380952">
+                                 <stops>
+                                    <Stop color="WHITE" />
+                                    <Stop color="#720086" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
                      </children>
                   </AnchorPane>
             </content>
@@ -133,7 +146,7 @@
                               </Button>
                            </items>
                         </ToolBar>
-                        <GridPane layoutX="77.0" layoutY="502.0" prefHeight="126.0" prefWidth="398.0">
+                        <GridPane layoutX="76.0" layoutY="494.0" prefHeight="149.0" prefWidth="398.0">
                            <children>
                               <Label text="Calories" textFill="WHITE" GridPane.rowIndex="1">
                                  <font>
@@ -157,7 +170,7 @@
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="cboJour" prefHeight="64.0" prefWidth="280.0" promptText="Jour" GridPane.columnIndex="1" />
+                              <ComboBox fx:id="cboJour" prefHeight="46.0" prefWidth="276.0" promptText="Jour" GridPane.columnIndex="1" />
                               <TextField fx:id="txtEau" onKeyTyped="#verifNum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                            <columnConstraints>
