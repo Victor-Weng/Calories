@@ -928,7 +928,7 @@ public class CalorieController implements Initializable{
  			FileChooser fileChooser = new FileChooser();
  			
  			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
- 					"XML files (*.xml)","*xml");
+ 					"XML files (*.xml)","*.xml");
  			fileChooser.getExtensionFilters().add(extFilter);
  			
  			// Sauvegarde
